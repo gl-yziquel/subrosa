@@ -1,0 +1,40 @@
+#!/usr/bin/env -S just --justfile
+
+[private]
+@default:
+	echo
+	echo Sub-Rosa CLI for SSL certificates.
+	echo ──────────────────────────────────
+	echo
+	just --list --unsorted --justfile "{{ justfile() }}"
+	echo
+
+# Creates a root self signed certificate.
+[no-cd]
+root:
+	@echo
+	@echo Storing the passphrase into pass store.
+	@mkdir -p .subrosa
+	@echo '.gitignore'  > .subrosa/.gitignore
+	@echo 'pass/'      >> .subrosa/.gitignore
+	@cat $PASSWORD_STORE_DIR/.gpg-id | PASSWORD_STORE_DIR="{{ invocation_directory() }}/.subrosa/pass" sh -cu 'read -r key && pass init "$key"'
+	openssl rand -hex 512 | PASSWORD_STORE_DIR="{{ invocation_directory() }}/.subrosa/pass" pass insert -e passphrase
+	@echo
+	@echo Creating the root certificate key. Private.
+	@echo 'rootCA.key' >> .subrosa/.gitignore
+	PASSWORD_STORE_DIR="{{ invocation_directory() }}/.subrosa/pass" pass show passphrase | openssl genrsa -des3 -passout fd:0 -out .subrosa/rootCA.key 4096
+	@echo
+	@echo Creating and self signing the root certificate. Public.
+	PASSWORD_STORE_DIR="{{ invocation_directory() }}/.subrosa/pass" pass show passphrase | openssl req -x509 -new -nodes -key .subrosa/rootCA.key -sha256 -days 1024 -passin fd:0 -out .subrosa/rootCA.crt -config subrosa.conf
+	@echo
+
+# Wipes the subrosa data.
+[no-cd]
+wipe:
+	@echo
+	@read -p "This will trash all your certificates and secret keys. Proceed ? [y/N]" response && if [ ! "$response" = "y" ]; then exit 1; fi
+	@echo
+	@echo 'TODO: Use the `shred` tool to wipe data thoroughly.'
+	@echo
+	rm -rf .subrosa
+	@echo
