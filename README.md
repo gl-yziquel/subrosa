@@ -1,7 +1,14 @@
-subrosa.
-========
+Sub-Rosa.
+=========
 
 Management of SSL certificates.
+
+**NOTE**: This is a toy tool demonstrating the possibility of using
+executable justfiles. If you wish solid tools to manage your own
+certificate authority, consider mature software such as [HashiCorp
+Vault][vault] or its more open source fork, OpenBao.
+
+[vault]: https://developer.hashicorp.com/vault/tutorials/secrets-management/pki-engine
 
 
 Synopsis:
@@ -12,8 +19,8 @@ certificates][root]. We expect in the near future to be able to sign
 derived certificates with it.
 
 The structure of this project as an executable Justfile is in line with
-the [`ogma`][ogma] tool for electronic mail. (Tool which incidentally should
-be renamed to avoid conflict with a range of preexisting tools.)
+the [`ogma`][ogma] tool for electronic mail. (Tool which incidentally
+should be renamed to avoid conflict with a range of preexisting tools.)
 
 [ogma]: https://github.com/gl-yziquel/ogma
 [root]: https://gist.github.com/fntlnz/cf14feb5a46b2eda428e000157447309
@@ -29,10 +36,10 @@ link to the `subrosa` executable Justfile in this repository.
 
 Here is an example `Install.toml` file:
 
-```toml
-[install]
-path = "~/.local/bin"
-```
+> ```toml
+> [install]
+> path = "~/.local/bin"
+> ```
 
 
 Usage instructions:
@@ -49,20 +56,20 @@ openssl about metadata of the certificate to be generated.
 
 Here is an example of the `subrosa.conf` file:
 
-```ini
-[req]
-prompt = no
-distinguished_name = dn
-
-[dn]
-countryName = US
-stateOrProvince = NY
-localityName = New York
-organizationName = S.H.I.E.L.D.
-organizationalUnitName = Executive Board
-commonName = presidency.shield.gov
-emailAddress = nick.fury@shield.gov
-```
+> ```ini
+> [req]
+> prompt = no
+> distinguished_name = dn
+> 
+> [dn]
+> countryName = US
+> stateOrProvince = NY
+> localityName = New York
+> organizationName = S.H.I.E.L.D.
+> organizationalUnitName = Executive Board
+> commonName = presidency.shield.gov
+> emailAddress = nick.fury@shield.gov
+> ```
 
 
 Considerations about requirements:
