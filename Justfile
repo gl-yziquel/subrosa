@@ -15,7 +15,7 @@ readme:
 
 # Formats the versioned files.
 format:
-	cat README.md | par "-P=[-=" > .README.md.par && mv .README.md.par README.md
+	cat README.md | par "-P=[-=>" > .README.md.par && mv .README.md.par README.md
 
 # Installs the code.
 install:

@@ -6,9 +6,12 @@ Management of SSL certificates.
 **NOTE**: This is a toy tool demonstrating the possibility of using
 executable justfiles. If you wish solid tools to manage your own
 certificate authority, consider mature software such as [HashiCorp
-Vault][vault] or its more open source fork, OpenBao.
+Vault][vault] or its more open source fork, OpenBao; or consider also
+the [`consul tls`][consul-ca] command line from HashiCorp Consul, which
+is designed to create certificates and certificate authorities.
 
 [vault]: https://developer.hashicorp.com/vault/tutorials/secrets-management/pki-engine
+[consul-ca]: https://github.com/hashicorp-education/learn-consul-get-started-vms/blob/main/self-managed/infrastructure/local/scripts/generate_consul_server_config.sh#L86
 
 
 Synopsis:
@@ -60,7 +63,7 @@ Here is an example of the `subrosa.conf` file:
 > [req]
 > prompt = no
 > distinguished_name = dn
-> 
+>
 > [dn]
 > countryName = US
 > stateOrProvince = NY
